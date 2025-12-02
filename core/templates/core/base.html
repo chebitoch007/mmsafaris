@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="M&M Africa Safaris - Experience authentic African safari adventures with expert guides">
     <title>{% block title %}M&M Africa Safaris - Experience the Wild{% endblock %}</title>
 
     <!-- Favicon -->
@@ -15,14 +16,21 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --primary: #d4a574;
+            --primary-dark: #b8895e;
             --secondary: #2d5016;
+            --secondary-dark: #1f3810;
             --dark: #1a1a1a;
             --light: #f8f9fa;
             --accent: #e8c18c;
+            --text-muted: #6c757d;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
@@ -31,32 +39,56 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             color: var(--dark);
-            line-height: 1.6;
+            line-height: 1.7;
+            overflow-x: hidden;
         }
 
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Playfair Display', serif;
             font-weight: 700;
+            line-height: 1.3;
         }
 
-        /* Navbar */
+        /* Improved Navbar */
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-            padding: 1rem 0;
-            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 2px 24px rgba(0,0,0,0.06);
+            padding: 1.2rem 0;
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            padding: 0.8rem 0;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
         }
 
         .navbar-brand {
             font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            font-weight: 700;
+            font-size: 1.6rem;
+            font-weight: 800;
             color: var(--secondary) !important;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .navbar-brand:hover {
+            transform: scale(1.02);
+        }
+
+        .navbar-brand i {
+            color: var(--primary);
+            font-size: 1.8rem;
         }
 
         .navbar-brand span {
@@ -67,34 +99,37 @@
             font-weight: 500;
             color: var(--dark) !important;
             margin: 0 0.5rem;
-            transition: color 0.3s;
+            padding: 0.5rem 1rem !important;
+            transition: var(--transition);
             position: relative;
+            border-radius: 8px;
         }
 
         .nav-link:hover,
         .nav-link.active {
             color: var(--primary) !important;
+            background: rgba(212, 165, 116, 0.08);
         }
 
         .nav-link::after {
             content: '';
             position: absolute;
-            bottom: 0;
+            bottom: 4px;
             left: 50%;
             width: 0;
             height: 2px;
             background: var(--primary);
-            transition: all 0.3s;
+            transition: var(--transition);
             transform: translateX(-50%);
         }
 
-        .nav-link:hover::after {
-            width: 80%;
+        .nav-link.active::after {
+            width: 60%;
         }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1600') center/cover;
+            background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1600') center/cover;
             min-height: 90vh;
             display: flex;
             align-items: center;
@@ -102,6 +137,7 @@
             text-align: center;
             color: white;
             position: relative;
+            overflow: hidden;
         }
 
         .hero::before {
@@ -111,157 +147,318 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, rgba(212, 165, 116, 0.2), rgba(45, 80, 22, 0.2));
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.15), rgba(45, 80, 22, 0.15));
+            animation: gradientShift 8s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.5; }
         }
 
         .hero-content {
             position: relative;
             z-index: 1;
-            animation: fadeInUp 1s;
+            animation: fadeInUp 1s ease-out;
+            max-width: 900px;
+            padding: 0 1rem;
         }
 
         .hero h1 {
-            font-size: 4rem;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
             margin-bottom: 1.5rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 4px 8px rgba(0,0,0,0.4);
+            font-weight: 800;
         }
 
         .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            margin-bottom: 2.5rem;
+            text-shadow: 1px 2px 4px rgba(0,0,0,0.3);
+            font-weight: 300;
         }
 
-        /* Buttons */
-        .btn-primary {
-            background: var(--primary);
-            border: none;
-            padding: 0.8rem 2rem;
-            font-weight: 600;
+        /* Improved Buttons */
+        .btn {
             border-radius: 50px;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3);
+            padding: 0.85rem 2.2rem;
+            font-weight: 600;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none;
+            box-shadow: 0 4px 20px rgba(212, 165, 116, 0.35);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
         }
 
         .btn-primary:hover {
-            background: var(--accent);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(212, 165, 116, 0.4);
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(212, 165, 116, 0.5);
         }
 
         .btn-outline-primary {
             color: var(--primary);
             border: 2px solid var(--primary);
-            padding: 0.8rem 2rem;
-            font-weight: 600;
-            border-radius: 50px;
-            transition: all 0.3s;
+            background: transparent;
         }
 
         .btn-outline-primary:hover {
             background: var(--primary);
             color: white;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(212, 165, 116, 0.4);
         }
 
-        /* Cards */
+        /* Enhanced Cards */
         .card {
             border: none;
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            transition: all 0.3s;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
             height: 100%;
+            background: white;
         }
 
         .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            transform: translateY(-12px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
         }
 
         .card-img-top {
             height: 250px;
             object-fit: cover;
-            transition: transform 0.3s;
+            transition: transform 0.5s ease;
         }
 
         .card:hover .card-img-top {
-            transform: scale(1.1);
+            transform: scale(1.15);
         }
 
         .card-body {
-            padding: 1.5rem;
+            padding: 1.8rem;
         }
 
-        /* Section Styles */
+        /* Section Improvements */
         section {
-            padding: 5rem 0;
+            padding: 6rem 0;
         }
 
         .section-title {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
+            animation: fadeInUp 0.8s ease-out;
         }
 
         .section-title h2 {
-            font-size: 3rem;
+            font-size: clamp(2rem, 4vw, 3.5rem);
             margin-bottom: 1rem;
             color: var(--secondary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
         }
 
         .section-title p {
-            font-size: 1.1rem;
-            color: #666;
-            max-width: 600px;
-            margin: 0 auto;
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 1.5rem auto 0;
         }
 
-        /* Footer */
+        /* Enhanced Footer with Logo */
         footer {
-            background: var(--dark);
-            color: white;
-            padding: 3rem 0 1rem;
+            background: linear-gradient(135deg, var(--dark) 0%, #2a2a2a 100%);
+            color: rgba(255,255,255,0.9);
+            padding: 4rem 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+        }
+
+        .footer-logo-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .footer-logo {
+            max-width: 280px;
+            height: auto;
+            margin-bottom: 1.5rem;
+            filter: brightness(1.1);
+            transition: var(--transition);
+        }
+
+        .footer-logo:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2);
+        }
+
+        .footer-tagline {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.8);
+            font-weight: 300;
+            font-style: italic;
+            margin-bottom: 0;
         }
 
         footer h5 {
             color: var(--primary);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.8rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        footer h5::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
         }
 
         footer a {
-            color: rgba(255,255,255,0.7);
+            color: rgba(255,255,255,0.75);
             text-decoration: none;
-            transition: color 0.3s;
+            transition: var(--transition);
+            display: inline-block;
+            padding: 0.3rem 0;
         }
 
         footer a:hover {
             color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        footer ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        footer ul li i {
+            width: 20px;
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
         }
 
         .social-links a {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            line-height: 40px;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             background: rgba(255,255,255,0.1);
-            margin-right: 0.5rem;
-            transition: all 0.3s;
+            transition: var(--transition);
+            transform: translateX(0);
         }
 
         .social-links a:hover {
             background: var(--primary);
-            transform: translateY(-3px);
+            transform: translateY(-5px) translateX(0);
+            box-shadow: 0 8px 20px rgba(212, 165, 116, 0.4);
+        }
+
+        .footer-bottom {
+            margin-top: 3rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .footer-bottom p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* Alert Improvements */
+        .alert {
+            border-radius: var(--border-radius);
+            border: none;
+            box-shadow: var(--box-shadow);
+            animation: slideInDown 0.5s ease-out;
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Badge Improvements */
+        .badge {
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.3px;
         }
 
         /* Animations */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(40px);
             }
             to {
                 opacity: 1;
@@ -270,38 +467,64 @@
         }
 
         .fade-in-up {
-            animation: fadeInUp 0.8s;
+            animation: fadeInUp 0.8s ease-out;
         }
 
-        /* Alert Messages */
-        .alert {
-            border-radius: 10px;
+        /* Scroll to Top Button */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
             border: none;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(212, 165, 116, 0.4);
+            transition: var(--transition);
         }
 
-        /* Badge */
-        .badge {
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-weight: 500;
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(212, 165, 116, 0.6);
         }
 
-        /* Loading */
+        .scroll-top.show {
+            display: flex;
+        }
+
+        /* Loading Spinner */
         .loading {
             display: inline-block;
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             border: 3px solid rgba(255,255,255,.3);
             border-radius: 50%;
             border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
+            animation: spin 0.8s ease-in-out infinite;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
 
-        /* Responsive */
+        /* Responsive Improvements */
+        @media (max-width: 992px) {
+            .navbar-collapse {
+                background: white;
+                padding: 1rem;
+                border-radius: var(--border-radius);
+                margin-top: 1rem;
+                box-shadow: var(--box-shadow);
+            }
+        }
+
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2.5rem;
@@ -311,36 +534,87 @@
                 font-size: 1.1rem;
             }
 
+            section {
+                padding: 4rem 0;
+            }
+
             .section-title h2 {
                 font-size: 2rem;
             }
+
+            .btn {
+                padding: 0.75rem 1.8rem;
+                font-size: 0.85rem;
+            }
+
+            .footer-logo {
+                max-width: 220px;
+            }
+
+            .scroll-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        /* Accessibility Improvements */
+        *:focus-visible {
+            outline: 3px solid var(--primary);
+            outline-offset: 3px;
+        }
+
+        /* Skip to main content link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            z-index: 100;
+        }
+
+        .skip-link:focus {
+            top: 0;
         }
     </style>
     {% block extra_css %}{% endblock %}
 </head>
 <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg fixed-top">
+    <nav class="navbar navbar-expand-lg fixed-top" role="navigation" aria-label="Main navigation">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">
-                <i class="fas fa-paw"></i> M&M <span>Africa Safaris</span>
+            <a class="navbar-brand" href="{% url 'home' %}" aria-label="M&M Africa Safaris Home">
+                <i class="fas fa-paw" aria-hidden="true"></i>
+                <span>M&M <span>Africa Safaris</span></span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+                           href="{% url 'home' %}" aria-current="{% if request.resolver_match.url_name == 'home' %}page{% endif %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'tours' %}active{% endif %}" href="{% url 'tours' %}">Tours</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'tours' %}active{% endif %}"
+                           href="{% url 'tours' %}" aria-current="{% if request.resolver_match.url_name == 'tours' %}page{% endif %}">Tours</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}" href="{% url 'about' %}">About</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}"
+                           href="{% url 'about' %}" aria-current="{% if request.resolver_match.url_name == 'about' %}page{% endif %}">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}" href="{% url 'contact' %}">Contact</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}"
+                           href="{% url 'contact' %}" aria-current="{% if request.resolver_match.url_name == 'contact' %}page{% endif %}">Contact</a>
                     </li>
                 </ul>
             </div>
@@ -349,12 +623,12 @@
 
     <!-- Messages -->
     {% if messages %}
-        <div style="margin-top: 80px;">
+        <div style="margin-top: 100px;" role="alert" aria-live="polite">
             <div class="container">
                 {% for message in messages %}
                     <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
                         {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 {% endfor %}
             </div>
@@ -362,48 +636,116 @@
     {% endif %}
 
     <!-- Main Content -->
-    {% block content %}{% endblock %}
+    <main id="main-content">
+        {% block content %}{% endblock %}
+    </main>
 
     <!-- Footer -->
-    <footer>
+    <footer role="contentinfo">
         <div class="container">
+            <!-- Logo Section -->
+            <div class="footer-logo-section">
+                <img src="{% static 'images/mmsafarislogo.png' %}" alt="M&M Africa Safaris Logo" class="footer-logo">
+                <p class="footer-tagline">Experience the magic of Africa's wilderness</p>
+            </div>
+
             <div class="row">
                 <div class="col-md-4 mb-4">
-                    <h5><i class="fas fa-paw"></i> M&M Africa Safaris</h5>
-                    <p>Experience the beauty and wonder of Africa's wildlife with our expertly guided safari tours.</p>
+                    <h5>About Us</h5>
+                    <p>M&M Africa Safaris brings you closer to Africa's wild heart with expertly guided safari tours. We're committed to conservation, community development, and creating unforgettable memories.</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#" aria-label="Follow us on Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Subscribe to our YouTube channel"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
                     <h5>Quick Links</h5>
                     <ul class="list-unstyled">
                         <li><a href="{% url 'home' %}"><i class="fas fa-chevron-right"></i> Home</a></li>
-                        <li><a href="{% url 'tours' %}"><i class="fas fa-chevron-right"></i> Tours</a></li>
+                        <li><a href="{% url 'tours' %}"><i class="fas fa-chevron-right"></i> Safari Tours</a></li>
                         <li><a href="{% url 'about' %}"><i class="fas fa-chevron-right"></i> About Us</a></li>
                         <li><a href="{% url 'contact' %}"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4 mb-4">
                     <h5>Contact Info</h5>
                     <ul class="list-unstyled">
-                        <li><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</li>
-                        <li><i class="fas fa-phone"></i> +254 700 000 000</li>
-                        <li><i class="fas fa-envelope"></i> info@mmsafaris.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya (P.O. Box 12345)</li>
+                        <li><i class="fas fa-phone"></i> <a href="tel:+254700000000">+254 700 000 000</a></li>
+                        <li><i class="fab fa-whatsapp"></i> <a href="https://wa.me/254700000000">WhatsApp Us</a></li>
+                        <li><i class="fas fa-envelope"></i> <a href="mailto:info@mmsafaris.com">info@mmsafaris.com</a></li>
                     </ul>
                 </div>
             </div>
-            <hr style="border-color: rgba(255,255,255,0.1);">
-            <div class="text-center py-3">
-                <p class="mb-0">&copy; 2025 M&M Africa Safaris. All rights reserved.</p>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2025 M&M Africa Safaris. All rights reserved. | Designed with <i class="fas fa-heart" style="color: var(--primary);"></i> for wildlife lovers</p>
             </div>
         </div>
     </footer>
 
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll to top button
+        const scrollTopBtn = document.getElementById('scrollTop');
+
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.add('show');
+            } else {
+                scrollTopBtn.classList.remove('show');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card, .section-title').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+            observer.observe(el);
+        });
+    </script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>
