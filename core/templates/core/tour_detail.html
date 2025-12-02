@@ -1,0 +1,130 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}{{ tour.name }} - M&M Africa Safaris{% endblock %}
+
+{% block content %}
+<section class="position-relative d-flex align-items-end pb-5" style="height: 60vh; background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%), url('{% if tour.image %}{{ tour.image.url }}{% else %}https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1600{% endif %}') center/cover fixed;">
+    <div class="container pb-4 position-relative" style="z-index: 2;">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-white-50 text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'tours' %}" class="text-white-50 text-decoration-none">Tours</a></li>
+                <li class="breadcrumb-item active text-white" aria-current="page">{{ tour.name }}</li>
+            </ol>
+        </nav>
+
+        <div class="row align-items-end">
+            <div class="col-lg-8">
+                {% if tour.featured %}
+                <span class="badge bg-warning text-dark mb-3"><i class="fas fa-star"></i> Featured Tour</span>
+                {% endif %}
+                <h1 class="display-3 fw-bold text-white mb-3 font-playfair">{{ tour.name }}</h1>
+                <div class="d-flex flex-wrap gap-3 text-white">
+                    <span class="h5 mb-0 badge bg-white bg-opacity-25 backdrop-blur">
+                        <i class="fas fa-clock me-2"></i> {{ tour.duration_days }} Days
+                    </span>
+                    <span class="h5 mb-0 badge bg-white bg-opacity-25 backdrop-blur">
+                        <i class="fas fa-mountain me-2"></i> {{ tour.get_difficulty_display }}
+                    </span>
+                    <span class="h5 mb-0 badge bg-white bg-opacity-25 backdrop-blur">
+                        <i class="fas fa-users me-2"></i> Max {{ tour.max_group_size }}
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-4 text-lg-end d-none d-lg-block">
+                <div class="text-white">
+                    <small class="d-block opacity-75">Starting From</small>
+                    <span class="display-4 fw-bold text-primary">${{ tour.price }}</span>
+                    <small class="d-block opacity-75">per person</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="bg-light pt-5 pb-5">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm rounded-4 mb-4 p-2">
+                    <div class="card-body p-4">
+                        <h3 class="mb-4 font-playfair text-secondary">Tour Overview</h3>
+                        <p class="lead text-muted">{{ tour.description }}</p>
+
+                        <hr class="my-5 border-light">
+
+                        <h4 class="mb-4 font-playfair">What's Included</h4>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <ul class="list-unstyled d-grid gap-2">
+                                    <li class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-3"></i> Professional Guide</li>
+                                    <li class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-3"></i> All Meals</li>
+                                    <li class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-3"></i> Luxury Accommodation</li>
+                                    <li class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-3"></i> Park Fees</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-unstyled d-grid gap-2">
+                                    <li class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-3"></i> 4x4 Transportation</li>
+                                    <li class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-3"></i> Unlimited Game Drives</li>
+                                    <li class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-3"></i> Bottled Water</li>
+                                    <li class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-3"></i> Airport Transfer</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert bg-primary bg-opacity-10 border-0 rounded-4 p-4 mb-4">
+                    <div class="d-flex">
+                        <div class="text-primary me-3"><i class="fas fa-info-circle fa-2x"></i></div>
+                        <div>
+                            <h5 class="text-primary font-playfair">Important Information</h5>
+                            <ul class="mb-0 small text-muted">
+                                <li>Minimum age: 5 years old (flexible for private tours).</li>
+                                <li>Please bring comfortable walking shoes and sun protection.</li>
+                                <li>Valid passport required for international travelers.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="sticky-top" style="top: 100px;">
+                    <div class="card border-0 shadow-lg rounded-4 overflow-hidden mb-4">
+                        <div class="card-body p-4">
+                            <div class="d-lg-none mb-3">
+                                <small class="text-muted">Price per person</small>
+                                <h3 class="text-primary mb-0">${{ tour.price }}</h3>
+                            </div>
+
+                            <a href="{% url 'booking' tour.slug %}" class="btn btn-primary w-100 btn-lg rounded-pill mb-3 hover-lift shadow-sm">
+                                <i class="fas fa-calendar-check me-2"></i> Check Availability
+                            </a>
+                            <a href="{% url 'contact' %}" class="btn btn-outline-secondary w-100 rounded-pill hover-lift">
+                                <i class="fas fa-comment-alt me-2"></i> Ask a Question
+                            </a>
+                        </div>
+                        <div class="bg-light p-3 text-center border-top">
+                            <small class="text-muted">
+                                <i class="fas fa-phone-alt me-1"></i> Call to book: <strong class="text-dark">+254 700 000 000</strong>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .backdrop-blur { backdrop-filter: blur(5px); }
+    .font-playfair { font-family: 'Playfair Display', serif; }
+    .hover-lift { transition: transform 0.2s; }
+    .hover-lift:hover { transform: translateY(-3px); }
+</style>
+{% endblock %}

@@ -1,0 +1,202 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Book {{ tour.name }} - M&M Africa Safaris{% endblock %}
+
+{% block content %}
+<section class="hero position-relative" style="min-height: 40vh; background: linear-gradient(rgba(26, 26, 26, 0.7), rgba(26, 26, 26, 0.7)), url('{% if tour.image %}{{ tour.image.url }}{% else %}https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1600{% endif %}') center/cover fixed;">
+    <div class="hero-content text-center text-white">
+        <span class="badge bg-warning text-dark mb-2 px-3 py-2 rounded-pill fw-bold">
+            <i class="fas fa-star me-1"></i> Best Rate Guaranteed
+        </span>
+        <h1 class="display-4 fw-bold mb-2">Finalize Your Booking</h1>
+        <p class="lead text-white-50">You are one step away from {{ tour.name }}</p>
+    </div>
+</section>
+
+<section class="py-5 bg-light position-relative" style="margin-top: -60px; padding-top: 0 !important;">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-8">
+                <div class="card shadow-lg border-0 overflow-hidden rounded-4">
+                    <div class="card-header bg-white p-4 border-0 pb-0">
+                        <h3 class="mb-1 text-secondary font-playfair">Guest Details</h3>
+                        <p class="text-muted small">Please fill in your details to secure your spot.</p>
+                    </div>
+                    <div class="card-body p-4">
+                        <form method="post" id="bookingForm" novalidate>
+                            {% csrf_token %}
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        {{ form.full_name }}
+                                        <label for="{{ form.full_name.id_for_label }}">Full Name</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        {{ form.email }}
+                                        <label for="{{ form.email.id_for_label }}">Email Address</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        {{ form.phone }}
+                                        <label for="{{ form.phone.id_for_label }}">Phone Number</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h5 class="text-secondary font-playfair mt-4 mb-3">Trip Logistics</h5>
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        {{ form.number_of_people }}
+                                        <label for="{{ form.number_of_people.id_for_label }}">Travelers</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        {{ form.preferred_date }}
+                                        <label for="{{ form.preferred_date.id_for_label }}">Preferred Start Date</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-floating mb-4">
+                                {{ form.special_requests }}
+                                <label for="{{ form.special_requests.id_for_label }}">Special Requests (Dietary, Accessibility, etc.)</label>
+                            </div>
+
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                                <label class="form-check-label text-muted small" for="termsCheck">
+                                    I agree to the <a href="#" class="text-primary text-decoration-none">Terms & Conditions</a> and <a href="#" class="text-primary text-decoration-none">Cancellation Policy</a>.
+                                </label>
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg rounded-pill shadow-sm hover-lift">
+                                    <i class="fas fa-lock me-2"></i> Confirm Booking Request
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="sticky-top" style="top: 100px; z-index: 1;">
+                    <div class="card shadow border-0 rounded-4 overflow-hidden mb-4">
+                        <div class="bg-primary p-4 text-white position-relative overflow-hidden">
+                            <h4 class="font-playfair mb-1 position-relative" style="z-index: 2;">{{ tour.name }}</h4>
+                            <div class="d-flex gap-2 position-relative" style="z-index: 2;">
+                                <span class="badge bg-white text-primary bg-opacity-25"><i class="far fa-clock"></i> {{ tour.duration_days }} Days</span>
+                                <span class="badge bg-white text-primary bg-opacity-25">{{ tour.get_difficulty_display }}</span>
+                            </div>
+                            <div style="position: absolute; right: -20px; bottom: -20px; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+                        </div>
+
+                        <div class="card-body p-4 bg-white">
+                            <ul class="list-unstyled mb-0">
+                                <li class="d-flex justify-content-between mb-3 pb-3 border-bottom border-light">
+                                    <span class="text-muted">Price per person</span>
+                                    <span class="fw-bold">${{ tour.price }}</span>
+                                </li>
+                                <li class="d-flex justify-content-between mb-3 pb-3 border-bottom border-light">
+                                    <span class="text-muted">Travelers</span>
+                                    <span class="fw-bold" id="peopleCount">1</span>
+                                </li>
+                                <li class="d-flex justify-content-between align-items-center">
+                                    <span class="h6 mb-0 text-secondary font-playfair">Total Estimate</span>
+                                    <span class="h3 mb-0 text-primary" id="totalPrice">${{ tour.price }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-footer bg-light p-3 text-center">
+                            <small class="text-muted"><i class="fas fa-info-circle me-1"></i> No payment required today</small>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-4 shadow-sm border border-light">
+                        <h6 class="font-playfair mb-3">Why Book With Us?</h6>
+                        <div class="d-flex gap-3 mb-3">
+                            <div class="text-primary"><i class="fas fa-shield-alt fa-lg"></i></div>
+                            <div class="small text-muted lh-sm">Secure booking process with instant confirmation email.</div>
+                        </div>
+                        <div class="d-flex gap-3">
+                            <div class="text-primary"><i class="fas fa-headset fa-lg"></i></div>
+                            <div class="small text-muted lh-sm">24/7 Support from our local Nairobi office.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const pricePerPerson = {{ tour.price }};
+    const peopleInput = document.getElementById('id_number_of_people');
+    const peopleCount = document.getElementById('peopleCount');
+    const totalPrice = document.getElementById('totalPrice');
+
+    if (peopleInput) {
+        peopleInput.addEventListener('input', function() {
+            let people = parseInt(this.value);
+            if (isNaN(people) || people < 1) people = 1;
+
+            peopleCount.textContent = people;
+            const total = pricePerPerson * people;
+            totalPrice.textContent = '$' + total.toFixed(2);
+        });
+    }
+
+    // Set minimum date to today
+    const dateInput = document.getElementById('id_preferred_date');
+    if (dateInput) {
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.setAttribute('min', today);
+    }
+
+    // Form validation
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+        const termsCheck = document.getElementById('termsCheck');
+        if (!termsCheck.checked) {
+            e.preventDefault();
+            // Create a temporary alert div if you want it prettier, or just use alert
+            alert('Please agree to the terms and conditions to proceed.');
+            termsCheck.focus();
+            return false;
+        }
+    });
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Reuse the Floating Label & Hover styles from Contact Page */
+    .form-floating > .form-control, .form-floating > .form-select {
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        background-color: #fcfcfc;
+    }
+
+    .form-floating > .form-control:focus, .form-floating > .form-select:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 0.25rem rgba(212, 165, 116, 0.15);
+        background-color: #fff;
+    }
+
+    .form-floating > label { color: #888; }
+    .hover-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .hover-lift:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important; }
+    .font-playfair { font-family: 'Playfair Display', serif; }
+</style>
+{% endblock %}
