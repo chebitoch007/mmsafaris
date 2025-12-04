@@ -47,10 +47,11 @@
     <div class="container">
         <div class="row g-5">
             <div class="col-lg-8">
+
                 <div class="card border-0 shadow-sm rounded-4 mb-4 p-2">
                     <div class="card-body p-4">
                         <h3 class="mb-4 font-playfair text-secondary">Tour Overview</h3>
-                        <p class="lead text-muted">{{ tour.description }}</p>
+                        <p class="lead text-muted">{{ tour.description|linebreaks }}</p>
 
                         <hr class="my-5 border-light">
 
@@ -61,20 +62,63 @@
                                     <li class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-3"></i> Professional Guide</li>
                                     <li class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-3"></i> All Meals</li>
                                     <li class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-3"></i> Luxury Accommodation</li>
-                                    <li class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-3"></i> Park Fees</li>
                                 </ul>
                             </div>
                             <div class="col-md-6">
                                 <ul class="list-unstyled d-grid gap-2">
                                     <li class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-3"></i> 4x4 Transportation</li>
                                     <li class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-3"></i> Unlimited Game Drives</li>
-                                    <li class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-3"></i> Bottled Water</li>
-                                    <li class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-3"></i> Airport Transfer</li>
+                                    <li class="d-flex align-items-center"><i class="fas fa-check-circle text-success me-3"></i> Park Fees</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                {% if tour.itinerary.exists %}
+                <div class="mb-5">
+                    <h3 class="mb-4 font-playfair text-secondary">Daily Itinerary</h3>
+                    <div class="accordion custom-accordion" id="itineraryAccordion">
+                        {% for day in tour.itinerary.all %}
+                        <div class="accordion-item border-0 shadow-sm mb-3 rounded-3 overflow-hidden">
+                            <h2 class="accordion-header" id="heading{{ day.id }}">
+                                <button class="accordion-button {% if not forloop.first %}collapsed{% endif %} fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ day.id }}" aria-expanded="{{ forloop.first|yesno:'true,false' }}">
+                                    <span class="badge bg-primary me-3">Day {{ day.day_number }}</span> {{ day.title }}
+                                </button>
+                            </h2>
+                            <div id="collapse{{ day.id }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" data-bs-parent="#itineraryAccordion">
+                                <div class="accordion-body bg-white text-muted">
+                                    {{ day.description|linebreaks }}
+                                    <div class="mt-3 pt-3 border-top d-flex gap-3 small">
+                                        {% if day.accommodation %}
+                                        <span><i class="fas fa-bed text-primary me-1"></i> <strong>Stay:</strong> {{ day.accommodation }}</span>
+                                        {% endif %}
+                                        {% if day.meals %}
+                                        <span><i class="fas fa-utensils text-primary me-1"></i> <strong>Meals:</strong> {{ day.meals }}</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if tour.gallery_images.exists %}
+                <div class="mb-5">
+                    <h3 class="mb-4 font-playfair text-secondary">Tour Gallery</h3>
+                    <div class="row g-3">
+                        {% for img in tour.gallery_images.all %}
+                        <div class="col-md-4 col-6">
+                            <div class="ratio ratio-4x3">
+                                <img src="{{ img.image.url }}" class="rounded-3 object-fit-cover shadow-sm" alt="{{ img.caption|default:tour.name }}">
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
 
                 <div class="alert bg-primary bg-opacity-10 border-0 rounded-4 p-4 mb-4">
                     <div class="d-flex">
@@ -126,5 +170,16 @@
     .font-playfair { font-family: 'Playfair Display', serif; }
     .hover-lift { transition: transform 0.2s; }
     .hover-lift:hover { transform: translateY(-3px); }
+    .object-fit-cover { object-fit: cover; }
+
+    /* Accordion Styling */
+    .custom-accordion .accordion-button:not(.collapsed) {
+        background-color: rgba(212, 165, 116, 0.1); /* Primary color light opacity */
+        color: var(--primary);
+    }
+    .custom-accordion .accordion-button:focus {
+        box-shadow: none;
+        border-color: rgba(212, 165, 116, 0.5);
+    }
 </style>
 {% endblock %}

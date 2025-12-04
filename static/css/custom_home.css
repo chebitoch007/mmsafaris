@@ -1,0 +1,374 @@
+/*
+ * Custom styles for M&M Africa Safaris Homepage (core/home.html)
+ * Palette: Deep Green/Gold/Beige
+ */
+
+:root {
+    /* New Palette Variables */
+    --primary: #2d5016; /* Deep Green */
+    --accent: #d4a857; /* Rich Gold */
+    --muted: #6b6b6b;
+    --bg-light: #f7f6f2; /* Light Beige/Off-White */
+    --transition-fast: all 0.25s ease-out;
+    --card-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Base Overrides for Home Content */
+body {
+    font-size: 16px; /* Enhanced readability */
+}
+
+h1, h2, h3 {
+    color: var(--primary);
+}
+
+/* --- Hero Section Premium --- */
+.hero-premium {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.45)), url('https://images.unsplash.com/photo-1547477154-209a80e4663e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1600&q=80') center/cover;
+    min-height: 100vh; /* Full viewport height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    position: relative;
+    padding: 100px 0 50px; /* Account for fixed nav */
+}
+
+.hero-content-premium {
+    position: relative;
+    z-index: 10;
+    max-width: 1000px;
+}
+
+.hero-premium h1 {
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    color: white;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.hero-premium h1 strong {
+    color: var(--accent);
+}
+
+.lead-premium {
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    font-weight: 300;
+    margin-bottom: 3rem;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.4);
+}
+
+.hero-actions .btn {
+    min-width: 200px;
+    font-size: 1rem;
+}
+
+.hero-actions .btn-outline-light {
+    border-color: white;
+    color: white;
+}
+
+.hero-actions .btn-outline-light:hover {
+    background: white;
+    color: var(--primary) !important;
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 40px;
+    border: 2px solid white;
+    border-radius: 10px;
+    opacity: 0.8;
+}
+
+.scroll-indicator .dot {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    animation: scroll-anim 1.5s infinite;
+}
+
+@keyframes scroll-anim {
+    0% { transform: translate(-50%, 0); opacity: 1; }
+    100% { transform: translate(-50%, 20px); opacity: 0; }
+}
+
+/* --- Section Title Enhancement --- */
+.section-title h2 {
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+}
+
+.section-title h2 strong {
+    color: var(--accent);
+}
+
+.section-title h2::after {
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+}
+
+/* --- Featured Tours Cards --- */
+.tour-card {
+    border-radius: 12px;
+    overflow: hidden;
+    transition: var(--transition-fast);
+    box-shadow: var(--card-shadow);
+}
+
+.tour-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.card-img-container {
+    height: 250px;
+    overflow: hidden;
+    position: relative;
+}
+
+.card-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth hover zoom */
+}
+
+.tour-card:hover .card-img-container img {
+    transform: scale(1.1);
+}
+
+.tour-price-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--accent);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 5;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-text-description {
+    min-height: 45px; /* Ensures consistent height for truncated text */
+}
+
+.tour-meta span {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-right: 1rem;
+    font-weight: 500;
+}
+
+/* --- Why Choose Us Features --- */
+.feature-box {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    transition: var(--transition-fast);
+    box-shadow: var(--card-shadow);
+}
+
+.feature-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(45, 80, 22, 0.1);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    color: var(--accent);
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+.feature-icon::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 2px;
+    background: var(--primary);
+    border-radius: 1px;
+}
+
+/* --- CTA Section (Final Call) --- */
+.cta-premium {
+    padding: 5rem 0;
+}
+
+.cta-premium h2 {
+    color: white;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
+.cta-icon {
+    font-size: 3.5rem;
+    color: var(--accent);
+}
+
+.btn-accent {
+    background: var(--accent);
+    border: none;
+    color: var(--primary);
+    font-weight: 700;
+    transition: var(--transition-fast);
+}
+
+.btn-accent:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(212, 168, 87, 0.4);
+}
+
+/* --- Testimonials Slider (Swiper) --- */
+.testimonials-slider {
+    padding: 0 10px 50px 10px; /* Space for pagination/nav */
+}
+
+.testimonial-card {
+    background: var(--bg-light);
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: var(--card-shadow);
+    margin: 0; /* Remove default blockquote margin */
+    border-left: 5px solid var(--accent);
+    min-height: 250px; /* Consistent card height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.testimonial-card .stars {
+    color: var(--accent);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.testimonial-card .quote {
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--dark);
+    margin-bottom: 1.5rem;
+}
+
+.client-info {
+    display: flex;
+    align-items: center;
+}
+
+.client-avatar {
+    width: 50px;
+    height: 50px;
+    background: var(--primary);
+    border-radius: 50%;
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.client-location {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+/* Swiper Navigation & Pagination */
+.swiper-button-next,
+.swiper-button-prev {
+    color: var(--primary) !important;
+    background: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: var(--transition-fast);
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    background: var(--accent);
+    color: white !important;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+    font-size: 1.1rem !important;
+}
+
+.swiper-pagination-bullet-active {
+    background: var(--primary) !important;
+}
+
+/* --- Animations (for custom_home.js IntersectionObserver) --- */
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transition-delay: var(--delay, 0s); /* Use CSS variable for staggered effect */
+}
+
+.fade-in-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Responsiveness --- */
+@media (max-width: 768px) {
+    .hero-premium {
+        min-height: 70vh;
+    }
+    .hero-premium h1 {
+        font-size: 3rem;
+    }
+    .lead-premium {
+        font-size: 1.1rem;
+    }
+    .hero-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .hero-actions .btn {
+        width: 100%;
+    }
+    .tour-card .card-body {
+        padding: 1rem;
+    }
+    .testimonial-card {
+        min-height: 280px; /* Ensure content fits on mobile */
+    }
+}
+
+@media (max-width: 576px) {
+    .swiper-button-next,
+    .swiper-button-prev {
+        display: none; /* Hide navigation buttons on smallest screens */
+    }
+}

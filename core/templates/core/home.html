@@ -1,193 +1,180 @@
 {% extends 'core/base.html' %}
+{% load static %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero">
-    <div class="hero-content">
-        <h1>Discover the Magic of Africa</h1>
-        <p>Embark on unforgettable safari adventures through Africa's most spectacular landscapes and wildlife</p>
-        <a href="{% url 'tours' %}" class="btn btn-primary btn-lg me-3">Explore Tours</a>
-        <a href="{% url 'contact' %}" class="btn btn-outline-primary btn-lg">Contact Us</a>
+<header class="hero-premium" role="banner" aria-label="African Safari Introduction">
+    <div class="container hero-content-premium">
+        <h1 class="fade-in-up" style="--delay: 0s;">Discover the **Wild Heart** of Africa</h1>
+        <p class="lead-premium fade-in-up" style="--delay: 0.2s;">Embark on an unforgettable safari, tailored by our local experts to give you the most authentic and spectacular wildlife experience.</p>
+        <div class="hero-actions fade-in-up" style="--delay: 0.4s;">
+            <a href="{% url 'tours' %}" class="btn btn-primary btn-lg me-3" aria-label="Explore Our Safari Tours">Explore Tours <i class="fas fa-search-location ms-2"></i></a>
+            <a href="{% url 'contact' %}" class="btn btn-outline-light btn-lg" aria-label="Contact Us to Plan Your Trip">Contact Us <i class="fas fa-phone-alt ms-2"></i></a>
+        </div>
     </div>
-</section>
+    <div class="scroll-indicator" aria-hidden="true">
+        <div class="dot"></div>
+    </div>
+</header>
 
-<!-- Featured Tours -->
-<section class="py-5">
+<section class="py-5" id="featured-tours">
     <div class="container">
-        <div class="section-title">
-            <h2>Featured Safari Tours</h2>
-            <p>Handpicked experiences that showcase the best of African wildlife</p>
+        <div class="section-title fade-in-up" style="--delay: 0s;">
+            <h2>🔥 Our **Most Popular** Safaris</h2>
+            <p>Handpicked experiences that showcase the best of African wildlife and culture, designed for the ultimate adventure.</p>
         </div>
 
         <div class="row g-4">
             {% for tour in featured_tours %}
-            <div class="col-md-4 fade-in-up" style="animation-delay: {{ forloop.counter0 }}00ms;">
-                <div class="card">
-                    <div style="overflow: hidden;">
+            <div class="col-lg-4 col-md-6 fade-in-up" style="--delay: {{ forloop.counter0|add:1 }}00ms;">
+                <article class="tour-card shadow-sm h-100" aria-labelledby="tour-{{ tour.slug }}-title">
+                    <div class="card-img-container">
                         {% if tour.image %}
-                            <img src="{{ tour.image.url }}" class="card-img-top" alt="{{ tour.name }}">
+                            <img src="{{ tour.image.url }}" class="card-img-top" alt="{{ tour.name }}" loading="lazy">
                         {% else %}
-                            <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=400" class="card-img-top" alt="{{ tour.name }}">
+                            <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="Placeholder image of a safari landscape" loading="lazy">
                         {% endif %}
+                        <span class="tour-price-badge" aria-label="Price: ${{ tour.price }}">${{ tour.price }}</span>
                     </div>
                     <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="badge bg-success"><i class="fas fa-clock"></i> {{ tour.duration_days }} Days</span>
-                            <span class="text-muted"><i class="fas fa-users"></i> Max {{ tour.max_group_size }}</span>
+                        <h3 id="tour-{{ tour.slug }}-title" class="h5 card-title">{{ tour.name }}</h3>
+                        <p class="text-muted card-text-description">{{ tour.description|truncatewords:15 }}</p>
+                        <div class="tour-meta mb-3">
+                            <span><i class="fas fa-clock text-primary me-1"></i> {{ tour.duration_days }} Days</span>
+                            <span><i class="fas fa-users text-primary me-1"></i> Max {{ tour.max_group_size }} Guests</span>
                         </div>
-                        <h3 class="h5">{{ tour.name }}</h3>
-                        <p class="text-muted">{{ tour.description|truncatewords:20 }}</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="h4 mb-0" style="color: var(--primary);">${{ tour.price }}</span>
-                            <a href="{% url 'tour_detail' tour.slug %}" class="btn btn-outline-primary">View Details</a>
-                        </div>
+                        <a href="{% url 'tour_detail' tour.slug %}" class="btn btn-sm btn-outline-primary w-100" aria-label="View details for {{ tour.name }}">View Details <i class="fas fa-arrow-right ms-1"></i></a>
                     </div>
-                </div>
+                </article>
             </div>
             {% empty %}
-            <div class="col-12 text-center">
-                <p class="text-muted">No featured tours available at the moment.</p>
-                <a href="{% url 'tours' %}" class="btn btn-primary">Browse All Tours</a>
+            <div class="col-12 text-center py-5">
+                <p class="text-muted h4">No featured tours available at the moment. Check back soon!</p>
+                <a href="{% url 'tours' %}" class="btn btn-primary mt-3">Browse All Tours</a>
             </div>
             {% endfor %}
         </div>
 
         {% if featured_tours %}
-        <div class="text-center mt-5">
-            <a href="{% url 'tours' %}" class="btn btn-primary btn-lg">View All Tours <i class="fas fa-arrow-right"></i></a>
+        <div class="text-center mt-5 fade-in-up" style="--delay: 0.6s;">
+            <a href="{% url 'tours' %}" class="btn btn-secondary btn-lg">View All Tours <i class="fas fa-map-marked-alt ms-2"></i></a>
         </div>
         {% endif %}
     </div>
 </section>
 
-<!-- Why Choose Us -->
-<section style="background: var(--light);">
+---
+
+<section class="py-5" style="background: var(--bg-light);">
     <div class="container">
-        <div class="section-title">
-            <h2>Why Choose M&M Africa Safaris?</h2>
-            <p>Experience the difference with our world-class safari services</p>
+        <div class="section-title fade-in-up" style="--delay: 0s;">
+            <h2>Why **Choose** M&M Africa Safaris?</h2>
+            <p>We blend local expertise with a commitment to responsible travel for an unparalleled adventure.</p>
         </div>
 
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="text-center p-4">
-                    <div class="mb-3" style="font-size: 3rem; color: var(--primary);">
-                        <i class="fas fa-award"></i>
-                    </div>
-                    <h4>Expert Guides</h4>
-                    <p>Our experienced guides bring Africa's wildlife and culture to life with their deep knowledge and passion.</p>
+        <div class="row g-4 text-center">
+            <div class="col-md-4 fade-in-up" style="--delay: 0.1s;">
+                <div class="feature-box p-4 h-100">
+                    <div class="feature-icon mb-3"><i class="fas fa-route"></i></div>
+                    <h4>Tailored Itineraries</h4>
+                    <p class="text-muted">Customize your journey with flexible options and personal touches from start to finish.</p>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="text-center p-4">
-                    <div class="mb-3" style="font-size: 3rem; color: var(--primary);">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h4>Safe & Comfortable</h4>
-                    <p>Your safety is our priority. We provide comfortable accommodations and well-maintained vehicles.</p>
+            <div class="col-md-4 fade-in-up" style="--delay: 0.2s;">
+                <div class="feature-box p-4 h-100">
+                    <div class="feature-icon mb-3"><i class="fas fa-award"></i></div>
+                    <h4>Award-Winning Guides</h4>
+                    <p class="text-muted">Our certified local guides offer deep wildlife knowledge and ensure a safe, enriching experience.</p>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="text-center p-4">
-                    <div class="mb-3" style="font-size: 3rem; color: var(--primary);">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <h4>Unforgettable Memories</h4>
-                    <p>Create lasting memories with once-in-a-lifetime wildlife encounters and breathtaking landscapes.</p>
+            <div class="col-md-4 fade-in-up" style="--delay: 0.3s;">
+                <div class="feature-box p-4 h-100">
+                    <div class="feature-icon mb-3"><i class="fas fa-leaf"></i></div>
+                    <h4>Responsible Travel</h4>
+                    <p class="text-muted">Committed to conservation and empowering local communities through sustainable tourism.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- CTA Section -->
-<section style="background: linear-gradient(rgba(45, 80, 22, 0.9), rgba(45, 80, 22, 0.9)), url('https://images.unsplash.com/photo-1534177616072-ef7dc120449d?w=1600') center/cover; color: white;">
-    <div class="container text-center">
-        <h2 class="mb-4" style="color: white;">Ready for Your African Adventure?</h2>
-        <p class="lead mb-4">Join us for an unforgettable journey through the wild heart of Africa</p>
-        <a href="{% url 'tours' %}" class="btn btn-primary btn-lg">Book Your Safari Today</a>
-    </div>
-</section>
+---
 
-<!-- Testimonials -->
-<section>
+<section class="py-5 bg-white">
     <div class="container">
-        <div class="section-title">
-            <h2>What Our Guests Say</h2>
-            <p>Real experiences from real adventurers</p>
+        <div class="section-title fade-in-up" style="--delay: 0s;">
+            <h2>What Our **Adventurers** Say</h2>
+            <p>Real experiences from travelers who chose M&M Africa Safaris for their trip of a lifetime.</p>
         </div>
 
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="mb-3" style="color: var(--primary);">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
+        <div class="swiper testimonials-slider fade-in-up" style="--delay: 0.1s;">
+            <div class="swiper-wrapper" aria-live="polite">
+                <div class="swiper-slide">
+                    <blockquote class="testimonial-card">
+                        <div class="stars" role="img" aria-label="5 out of 5 stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                         </div>
-                        <p>"An absolutely incredible experience! The guides were knowledgeable, and we saw the Big Five up close. Highly recommended!"</p>
-                        <div class="d-flex align-items-center">
-                            <div class="me-3" style="width: 50px; height: 50px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
-                                JD
-                            </div>
+                        <p class="quote">"An absolutely **incredible experience**! The guides were knowledgeable, and we saw the Big Five up close. The accommodations were luxury. Highly recommended!"</p>
+                        <footer class="client-info">
+                            <div class="client-avatar" aria-hidden="true">JD</div>
                             <div>
                                 <strong>John Doe</strong>
-                                <div class="text-muted small">New York, USA</div>
+                                <span class="client-location">New York, USA</span>
                             </div>
-                        </div>
-                    </div>
+                        </footer>
+                    </blockquote>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="mb-3" style="color: var(--primary);">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
+
+                <div class="swiper-slide">
+                    <blockquote class="testimonial-card">
+                        <div class="stars" role="img" aria-label="5 out of 5 stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                         </div>
-                        <p>"M&M Safaris exceeded all our expectations. From booking to the last day, everything was perfectly organized and memorable."</p>
-                        <div class="d-flex align-items-center">
-                            <div class="me-3" style="width: 50px; height: 50px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
-                                SM
-                            </div>
+                        <p class="quote">"M&M Safaris exceeded all our expectations. From booking to the last day, everything was **perfectly organized** and resulted in memorable wildlife viewing."</p>
+                        <footer class="client-info">
+                            <div class="client-avatar" aria-hidden="true">SM</div>
                             <div>
                                 <strong>Sarah Miller</strong>
-                                <div class="text-muted small">London, UK</div>
+                                <span class="client-location">London, UK</span>
                             </div>
-                        </div>
-                    </div>
+                        </footer>
+                    </blockquote>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="mb-3" style="color: var(--primary);">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
+
+                <div class="swiper-slide">
+                    <blockquote class="testimonial-card">
+                        <div class="stars" role="img" aria-label="5 out of 5 stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                         </div>
-                        <p>"The trip of a lifetime! Beautiful landscapes, amazing wildlife, and fantastic service. We'll definitely be back!"</p>
-                        <div class="d-flex align-items-center">
-                            <div class="me-3" style="width: 50px; height: 50px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
-                                MK
-                            </div>
+                        <p class="quote">"The trip of a lifetime! Beautiful landscapes, amazing wildlife, and **fantastic service**. We felt safe and cared for the entire time. We'll definitely be back!"</p>
+                        <footer class="client-info">
+                            <div class="client-avatar" aria-hidden="true">MK</div>
                             <div>
                                 <strong>Michael Kim</strong>
-                                <div class="text-muted small">Sydney, Australia</div>
+                                <span class="client-location">Sydney, Australia</span>
                             </div>
-                        </div>
-                    </div>
+                        </footer>
+                    </blockquote>
                 </div>
             </div>
+
+            <div class="swiper-pagination"></div>
+
+            <div class="swiper-button-prev" role="button" aria-controls="testimonials-slider" aria-label="Previous Testimonial"></div>
+            <div class="swiper-button-next" role="button" aria-controls="testimonials-slider" aria-label="Next Testimonial"></div>
         </div>
+
     </div>
 </section>
-{% endblock %}
+
+---
+
+<section class="cta-premium" style="background: linear-gradient(rgba(45, 80, 22, 0.9), rgba(45, 80, 22, 0.9)), url('https://images.unsplash.com/photo-1534177616072-ef7dc120449d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1600&q=80') center/cover; color: white;">
+    <div class="container text-center py-5 fade-in-up" style="--delay: 0s;">
+        <i class="fas fa-calendar-alt cta-icon mb-3" aria-hidden="true"></i>
+        <h2 class="mb-3">Ready to Plan Your Ultimate African Safari?</h2>
+        <p class="lead mb-5">Don't wait to experience the unparalleled beauty and majesty of the African wilderness. Your adventure starts here.</p>
+        <a href="{% url 'tours' %}" class="btn btn-accent btn-lg shadow-lg">Book Your Safari Today <i class="fas fa-plane ms-2"></i></a>
+    </div>
+</section>
+
+{% endblock content %}
