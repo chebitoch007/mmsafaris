@@ -4,7 +4,7 @@
 {% block title %}{{ tour.name }} - M&M Africa Safaris{% endblock %}
 
 {% block content %}
-<section class="position-relative d-flex align-items-end pb-5" style="height: 60vh; background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%), url('{% if tour.image %}{{ tour.image.url }}{% else %}https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1600{% endif %}') center/cover fixed;">
+<section class="hero position-relative d-flex align-items-end pb-5" style="height: 60vh; background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%), url('{% if tour.image %}{{ tour.image.url }}{% else %}https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1600{% endif %}') center/cover fixed;">
     <div class="container pb-4 position-relative" style="z-index: 2;">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-4">
